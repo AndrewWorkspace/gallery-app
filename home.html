@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="css/style.css">
+	<title>Home</title>
+</head>
+<body>
+
+<section class="section-md bg-default" ng-controller="galleryCtrl">
+	<h2 class="text-center">Gallery</h2>
+	<div class="container row-10" >
+		<div class="gallery-item" ng-repeat="picture in gallery | startFrom:currentPage*pageSize | limitTo:pageSize">
+			<div class="gallery-item__thumb">
+				<img ng-src={{picture.photoSm}} alt="">
+				<span class="zoom" ng-click='toggleModal(picture.photoMd)'></span>
+			</div>
+			<div class="button-group">
+				<a href="https://github.com/AndrewWorkspace/gaallery-app/{{picture.id}}" class="button-reset button">Details</a>
+				<button class="button-reset button like" ng-click="like(picture.id)" ng-controller="favorite">Like
+					<span></span>
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="pagination">
+			<button class="button-reset button" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+				Previous
+			</button>
+			<div class="pagination__data">
+						<span>
+						{{currentPage+1}}/{{gallery.length}}
+					</span>
+				<select ng-model='pageSize'>
+					<option>2</option>
+					<option>4</option>
+					<option>6</option>
+					<option>8</option>
+					<option>12</option>
+				</select>
+			</div>
+			<button class="button-reset button" ng-disabled="currentPage >= gallery.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+				Next
+			</button>
+		</div>
+	</div>
+	<modal show='modalShown'>
+		<img ng-src="{{itemData}}" alt="">
+	</modal>
+</section>
+
+<section ng-controller="favorite">
+	<h2 class="text-center">Favorite</h2>
+	<span>
+	
+	</span>
+	<div class="container" >
+			<div class="gallery-item" ng-repeat="item in storageData">
+				<div class="gallery-item__thumb">
+					<img ng-src="{{item.photoSm}}" alt="">
+				</div>
+			</div>
+	</div>
+</section>
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.7.9/angular-route.min.js"></script>
+<script src="js/main.js"></script>
+</html>
